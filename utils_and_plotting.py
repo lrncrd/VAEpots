@@ -128,8 +128,15 @@ def KdePlot(data, archeo_info, subsampling = True, SaveFig=False):
             sns.kdeplot(data = info_selected_chrono_joined, x = "Dim_0", hue = info_selected_chrono_joined.Region, legend = True, ax = axs[x], hue_order = hue_order)
             axs[x].set_title(i)
 
+            reg_lat = info_selected_chrono_joined[info_selected_chrono_joined.Region == "Latium"]
+            reg_etr = info_selected_chrono_joined[info_selected_chrono_joined.Region == "Etruria"]
+            w_d = wasserstein_distance(reg_lat["Dim_0"], reg_etr["Dim_0"])
+            #print(f"{i}: WD: {w_d}")
+
     if SaveFig:
         fig.savefig(f"Kde_plot.jpg", dpi = 300)
+
+    plt.show()
 
 
 
