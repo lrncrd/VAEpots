@@ -11,7 +11,7 @@ message: >-
   Variational Autoencoder for unsupervised features
   extraction of ceramic profiles. A case study from
   central Italy
-type: Repository
+type: software
 authors:
   - given-names: Lorenzo
     family-names: Cardarelli
