@@ -25,6 +25,11 @@ try:
 
 
     class VariationalAutoencoder(nn.Module):
+        """
+        based on Sebastian Raschka MNIST Convolutional VAE
+        https://github.com/rasbt/stat453-deep-learning-ss21/blob/main/L17/1_VAE_mnist_sigmoid_mse.ipynb
+        """   
+        
         def __init__(self, latent_dims):
             super().__init__()  
             self.latent_dims = latent_dims
@@ -93,7 +98,10 @@ try:
 
 
     def TrainingVAE(vae, EPOCHS, data_loader_train,  device, loss_fn, optimizer):
-
+        """
+        based on Sebastian Raschka MNIST Convolutional VAE
+        https://github.com/rasbt/stat453-deep-learning-ss21/blob/main/L17/1_VAE_mnist_sigmoid_mse.ipynb
+        """ 
         start_time = time.time()
         outputs_train = []
         losses_train = []
@@ -107,14 +115,14 @@ try:
                         kl_div = -0.5 * torch.sum(1 + z_log_var 
                                             - z_mean**2 
                                             - torch.exp(z_log_var), 
-                                            axis=1) # sum over latent dimension
+                                            axis=1) # https://stats.stackexchange.com/questions/318748/deriving-the-kl-divergence-loss-for-vaes
 
                         batchsize = kl_div.size(0)
-                        kl_div = kl_div.mean() # average over batch dimension
+                        kl_div = kl_div.mean() 
 
                         pixelwise = loss_fn(decoded, img.float(), reduction='none')
-                        pixelwise = pixelwise.view(batchsize, -1).sum(axis=1) # sum over pixels
-                        pixelwise = pixelwise.mean() # average over batch dimension
+                        pixelwise = pixelwise.view(batchsize, -1).sum(axis=1)
+                        pixelwise = pixelwise.mean()
 
                         loss = pixelwise + kl_div
 
@@ -136,7 +144,10 @@ try:
 
 
     def TestingVAE(vae, EPOCHS, data_loader_test,  device, loss_fn):
-
+        """
+        based on Sebastian Raschka MNIST Convolutional VAE
+        https://github.com/rasbt/stat453-deep-learning-ss21/blob/main/L17/1_VAE_mnist_sigmoid_mse.ipynb
+        """ 
         outputs_tst = []
         losses_tst = []
 
@@ -149,14 +160,14 @@ try:
                     kl_div = -0.5 * torch.sum(1 + z_log_var 
                                             - z_mean**2 
                                             - torch.exp(z_log_var), 
-                                            axis=1) # sum over latent dimension
+                                            axis=1)
 
                     batchsize = kl_div.size(0)
-                    kl_div = kl_div.mean() # average over batch dimension
+                    kl_div = kl_div.mean() 
 
                     pixelwise = loss_fn(decoded, img.float(), reduction='none')
-                    pixelwise = pixelwise.view(batchsize, -1).sum(axis=1) # sum over pixels
-                    pixelwise = pixelwise.mean() # average over batch dimension
+                    pixelwise = pixelwise.view(batchsize, -1).sum(axis=1) 
+                    pixelwise = pixelwise.mean() 
 
                     loss = pixelwise + kl_div
                 outputs_tst.append((epoch, img, decoded))

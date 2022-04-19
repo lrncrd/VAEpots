@@ -141,17 +141,17 @@ def KdePlot(data, archeo_info, subsampling = True, SaveFig=False):
 
 
 
-def WSDist(data, archeo_info, resampling_number = 50, PlotType = "violin", show_points = False, SaveFig = False):
+def WSDist(data, archeo_info, resampling_number = 50, PlotType = "violin", show_points = False, SaveFig = False, return_df = True):
     pipeline = []
     distance_ws = []
     
     chronology = ["FBA", "EIA1", "EIA2", "OP"]
     for n in range(resampling_number):
         with pd.option_context('mode.chained_assignment',None):
-
-            for _, i in enumerate(chronology):
+            for x, i in enumerate(chronology):
                 info_selected_chrono = archeo_info[(archeo_info.chronology == i)]
                 pots_chrono = data.loc[info_selected_chrono.index]
+
 
                 min_number = min(info_selected_chrono.value_counts("Region"))
                 max_index = np.argmax(info_selected_chrono.value_counts("Region"))
@@ -160,43 +160,31 @@ def WSDist(data, archeo_info, resampling_number = 50, PlotType = "violin", show_
                 info_selected_chrono_max_region = info_selected_chrono[(info_selected_chrono.Region == max_region)]
                 info_selected_chrono_min_region = info_selected_chrono[(info_selected_chrono.Region != max_region)]
                 random_select = info_selected_chrono_max_region.sample(n = min_number)
-                    
+                
                 list1, list2 = list(info_selected_chrono_min_region.index), list(random_select.index)
 
                 list1.extend(list2)
 
                 info_selected_chrono = info_selected_chrono.loc[list1]
-                pots_chrono = pots_chrono.loc[list1]                   
+                pots_chrono = pots_chrono.loc[list1]
 
                 reduction = NCA(pots_chrono, info_selected_chrono.Region, 1)
-                nca_norm = MinMaxScaler().fit_transform(reduction)
-                df_values = pd.DataFrame(nca_norm, columns=[f"Dim_{dim}" for dim in range(reduction.shape[1])] , index = info_selected_chrono.index)
-                    
-
-                info_selected_chrono_joined = info_selected_chrono.join(df_values)
-
+                lda_comp_norm = MinMaxScaler().fit_transform(reduction)
+                df_values = pd.DataFrame(lda_comp_norm, columns=[f"Dim_{dim}" for dim in range(reduction.shape[1])] , index = info_selected_chrono.index)
                 
 
-                pipeline.append(info_selected_chrono_joined)
+                info_selected_chrono_joined = info_selected_chrono.join(df_values)
+            
 
-
-
-            total_df = pd.concat(pipeline)
-
-
-
-            for _, i in enumerate(chronology):
-                total_df_chr = total_df[(total_df.chronology == i)]
-                reg = total_df_chr[["Region", "Dim_0"]]
-                reg_lat = reg[reg.Region == "Latium"]
-                reg_etr = reg[reg.Region == "Etruria"]
+                reg_lat = info_selected_chrono_joined[info_selected_chrono_joined.Region == "Latium"]
+                reg_etr = info_selected_chrono_joined[info_selected_chrono_joined.Region == "Etruria"]
                 w_d = wasserstein_distance(reg_lat["Dim_0"], reg_etr["Dim_0"])
+                #print(f"{i}: WD: {w_d}")
+
+                pipeline.append((n, i, w_d))
 
 
-
-                distance_ws.append((n, i, w_d))
-
-    df_dist = pd.DataFrame(distance_ws, columns =  [["Run", "Epochs", "Wasserstein"]])
+    df_dist = pd.DataFrame(pipeline, columns =  [["Run", "Epochs", "Wasserstein"]])
     
     fig, ax = plt.subplots(1, 1, figsize = (10,5))
     if PlotType == "boxplot":        
@@ -215,13 +203,20 @@ def WSDist(data, archeo_info, resampling_number = 50, PlotType = "violin", show_
     
     elif PlotType == "points":
         ax = sns.stripplot(x=df_dist["Epochs"].values.reshape(-1), y=df_dist["Wasserstein"].values.reshape(-1),  linewidth=1)
+
+    
     
     else: assert "You can use 'violin', 'boxplot' or 'points' as graph type"
     
-    
+    plt.plot()
 
     if SaveFig:
         fig.savefig(f"WS_plot.jpg", dpi = 300)
+
+
+    if return_df:
+        return df_dist
+
 
 
 
