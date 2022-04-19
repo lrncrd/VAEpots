@@ -1,0 +1,17 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  VAEpots. A Convolutional Variational Autoencoder
+  for features extraction of archaeological pottery
+  profiles
+message: >-
+  Supplementary material for the paper A deep
+  Variational Autoencoder for unsupervised features
+  extraction of ceramic profiles. A case study from
+  central Italy
+type: Repository
+authors:
+  - given-names: Lorenzo
+    family-names: Cardarelli
