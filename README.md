@@ -5,7 +5,25 @@ The dataset includes about 5000 ceramic profiles from central tyrrhenian Italy.
 
 Supplementary material for the paper *A deep Variational Autoencoder for unsupervised features extraction of ceramic profiles. A case study from central Italy*
 
+### Site distribution
+Distribution of some of the sites used in the analysis. Complete map in high-resolution [here](https://github.com/lrncrd/VAEpots/blob/main/site_distribution.png). 
 
+[<img src="https://github.com/lrncrd/VAEpots/blob/main/presentation/maps.jpg" width="500"/>](image.png)
+
+### Sample dataset
+A *batch* of profiles edited from archaeological drawings
+
+[<img src="https://github.com/lrncrd/VAEpots/blob/main/presentation/batch.jpg" width="300"/>](image.png)
+
+### Reconstruction examples
+Reconstruced profiles from Test Set
+
+[<img src="https://github.com/lrncrd/VAEpots/blob/main/imgs/Rec_20.jpg" width="700"/>](image.png)
+
+### Multivariate analysis
+Multivariate analysis on Latent Dimension
+
+[<img src="https://github.com/lrncrd/VAEpots/blob/main/presentation/Reduction.jpg" width="800"/>](image.png)
 
 ## Installation
 
