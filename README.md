@@ -1,6 +1,11 @@
 # VAEpots
 A Convolutional Variational Autoencoder for features extraction of archaeological pottery profiles
 
+The dataset includes about 5000 ceramic profiles from central tyrrhenian Italy.
+
+Supplementary material for the paper *A deep Variational Autoencoder for unsupervised features extraction of ceramic profiles. A case study from central Italy*
+
+
 
 ## Installation
 
