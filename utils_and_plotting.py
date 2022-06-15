@@ -74,15 +74,15 @@ def NCA(data, y, n_components = 2):
     reduction = nca.fit_transform(data, y)
     return reduction
 
-def PlottingEmbeddings(data,archeo_info, labels = "Functional_class", SaveFig=False):
+def PlottingEmbeddings(data,archeo_info, labels = "Functional_class", SaveFig=False, **kwargs):
     reduced = PrincipalComponentAnalysis(data)
     embedded = Umap(data)
     fig, ax = plt.subplots(1, 2, figsize = (20,10))
-    sns.scatterplot(data = archeo_info, x =embedded[:,0], y = embedded[:,1], s = 5, hue =archeo_info[labels], ax = ax[1])
+    sns.scatterplot(data = archeo_info, x =embedded[:,0], y = embedded[:,1], s = 5, hue =archeo_info[labels], ax = ax[1], **kwargs)
     ax[1].set_title("UMAP")
     ax[1].set_ylabel('Embedding 2')
     ax[1].set_xlabel('Embedding 1')
-    sns.scatterplot(data = archeo_info, x =reduced[:,0], y = reduced[:,1], s = 5, hue =archeo_info[labels], ax = ax[0])
+    sns.scatterplot(data = archeo_info, x =reduced[:,0], y = reduced[:,1], s = 5, hue =archeo_info[labels], ax = ax[0], **kwargs)
     ax[0].set_title("PCA")
     ax[0].set_ylabel('PC 2')
     ax[0].set_xlabel('PC 1')
@@ -92,11 +92,12 @@ def PlottingEmbeddings(data,archeo_info, labels = "Functional_class", SaveFig=Fa
 
 def KdePlot(data, archeo_info, subsampling = True, SaveFig=False):
     chronology = ["FBA", "EIA1", "EIA2", "OP"]
+    chrono_name = ["Final Bronze Age", "Early Iron Age 1", "Early Iron Age 2", "Orientalizing Period"]
     hue_order = ["Etruria", "Latium"]
 
     with pd.option_context('mode.chained_assignment',None):
         fig, axs = plt.subplots(1, len(chronology), sharex="row", sharey="row", figsize = (20,5))
-
+        
         for x, i in enumerate(chronology):
             info_selected_chrono = archeo_info[(archeo_info.chronology == i)]
             pots_chrono = data.loc[info_selected_chrono.index]
@@ -126,8 +127,10 @@ def KdePlot(data, archeo_info, subsampling = True, SaveFig=False):
             info_selected_chrono_joined = info_selected_chrono.join(df_values)
             
             sns.kdeplot(data = info_selected_chrono_joined, x = "Dim_0", hue = info_selected_chrono_joined.Region, legend = True, ax = axs[x], hue_order = hue_order)
-            axs[x].set_title(i)
-
+            axs[x].set_title(chrono_name[x])
+            ##
+            axs[x].set_xlabel("NCA")
+            ##
             reg_lat = info_selected_chrono_joined[info_selected_chrono_joined.Region == "Latium"]
             reg_etr = info_selected_chrono_joined[info_selected_chrono_joined.Region == "Etruria"]
             w_d = wasserstein_distance(reg_lat["Dim_0"], reg_etr["Dim_0"])
