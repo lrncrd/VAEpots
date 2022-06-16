@@ -42,4 +42,4 @@ the Pytorch library is not included and must be installed according to the requi
 
 ## Interactive scatterplot visualization
 
-At the moment, you need to download the file () and open it locally. I am working on a better solution
+At the moment, you need to download the file (https://github.com/lrncrd/VAEpots/blob/main/Interactive_scatterplot.html) and open it locally. I am working on a better solution
