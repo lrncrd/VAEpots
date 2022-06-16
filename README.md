@@ -39,3 +39,7 @@ for further information https://docs.conda.io/projects/conda/en/latest/user-guid
 
 
 the Pytorch library is not included and must be installed according to the requirements of your system (https://pytorch.org/)
+
+## Interactive scatterplot visualization
+
+At the moment, you need to download the file () and open it locally. I am working on a better solution
