@@ -5,6 +5,30 @@ The dataset includes about 5000 ceramic profiles from central tyrrhenian Italy.
 
 Supplementary material for the paper *A deep Variational Autoencoder for unsupervised features extraction of ceramic profiles. A case study from central Italy*
 
+[![DOI](https://img.shields.io/badge/doi-10.1016%2Fj.jas.2022.105640%20-green)](https://doi.org/10.1016/j.jas.2022.105640)
+
+### Citation
+```Latex
+@article{cardarelli_deep_2022,
+	title = {A deep variational convolutional Autoencoder for unsupervised features extraction of ceramic profiles. A case study from central Italy},
+	volume = {144},
+	issn = {03054403},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S030544032200098X},
+	doi = {10.1016/j.jas.2022.105640},
+	pages = {105640},
+	journaltitle = {Journal of Archaeological Science},
+	shortjournal = {Journal of Archaeological Science},
+	author = {Cardarelli, Lorenzo},
+	urldate = {2022-07-10},
+	date = {2022-08},
+	langid = {english},
+}
+```
+
+
+
+
+
 ### Site distribution
 Distribution of some of the sites used in the analysis. Complete map in high-resolution [here](https://github.com/lrncrd/VAEpots/blob/main/site_distribution.png). 
 
